@@ -1,1 +1,0 @@
-LOAD DATA LOCAL INFILE '/path/book.txt' INTO TABLE book;
