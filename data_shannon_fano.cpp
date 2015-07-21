@@ -1,8 +1,4 @@
-/*
-	Author		: Doshi Shreyans
-	Date & Time	: 10-Jul-15 11:38:36 AM
-*/
-
+ 
 #include<bits/stdc++.h>
 #include<cmath>
 
