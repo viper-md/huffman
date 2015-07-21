@@ -100,7 +100,7 @@ int main()
 			k++;
 		}
 	}
-	//printf("%s", buf);
+	printf("%s", buf);
 	fclose(f);
 	return 0;
 }
