@@ -1,0 +1,161 @@
+SQL> create table student (rollno varchar2(10),fname varchar2(20),lname varchar2(20),address varchar2(30),email varchar2(20));
+
+Table created.
+
+SQL> insert into student values ('&rollno','&fname','&lname','&address','&email');
+Enter value for rollno: 13bce151
+Enter value for fname: harshil
+Enter value for lname: anghan
+Enter value for address: 21st jump street
+Enter value for email: 13bce151@nirmauni.ac.in
+old   1: insert into student values ('&rollno','&fname','&lname','&address','&email')
+new   1: insert into student values ('13bce151','harshil','anghan','21st jump street','13bce151@nirmauni.ac.in')
+insert into student values ('13bce151','harshil','anghan','21st jump street','13bce151@nirmauni.ac.in')
+                                                                             *
+ERROR at line 1:
+ORA-12899: value too large for column "SYSTEM"."STUDENT"."EMAIL" (actual: 23, 
+maximum: 20) 
+
+
+SQL> /
+Enter value for rollno: 13bce151
+Enter value for fname: harshil
+Enter value for lname: anghan
+Enter value for address: 21st jump street
+Enter value for email: 13bce151@gmail.com
+old   1: insert into student values ('&rollno','&fname','&lname','&address','&email')
+new   1: insert into student values ('13bce151','harshil','anghan','21st jump street','13bce151@gmail.com')
+
+1 row created.
+
+SQL> /
+Enter value for rollno: 13bce001
+Enter value for fname: abc
+Enter value for lname: xyzaa
+Enter value for address: iscon cross road
+Enter value for email: abc@gmail.com
+old   1: insert into student values ('&rollno','&fname','&lname','&address','&email')
+new   1: insert into student values ('13bce001','abc','xyzaa','iscon cross road','abc@gmail.com')
+
+1 row created.
+
+SQL> /
+Enter value for rollno: 13bce002
+Enter value for fname: random
+Enter value for lname: AgainRandom
+Enter value for address: random street
+Enter value for email: random@somthing.com
+old   1: insert into student values ('&rollno','&fname','&lname','&address','&email')
+new   1: insert into student values ('13bce002','random','AgainRandom','random street','random@somthing.com')
+
+1 row created.
+
+SQL> alter table student modify (rollno varchar2(20) primary key);
+
+Table altered.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                    NOT NULL VARCHAR2(20)
+ FNAME                                              VARCHAR2(20)
+ LNAME                                              VARCHAR2(20)
+ ADDRESS                                            VARCHAR2(30)
+ EMAIL                                              VARCHAR2(20)
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1* alter table student modify (rollno varchar2(20) primary key)
+SQL> create table author (author_id varchar2(10) primary key,fname varchar2(20), lname varchar2(20));
+
+Table created.
+
+SQL> desc author
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ AUTHOR_ID                                 NOT NULL VARCHAR2(10)
+ FNAME                                              VARCHAR2(20)
+ LNAME                                              VARCHAR2(20)
+
+SQL> select * from student;
+
+ROLLNO               FNAME                LNAME                                 
+-------------------- -------------------- --------------------                  
+ADDRESS                        EMAIL                                            
+------------------------------ --------------------                             
+13bce151             harshil              anghan                                
+21st jump street               13bce151@gmail.com                               
+                                                                                
+13bce001             abc                  xyzaa                                 
+iscon cross road               abc@gmail.com                                    
+                                                                                
+13bce002             random               AgainRandom                           
+random street                  random@somthing.com                              
+                                                                                
+
+SQL> create view studview as select rollno,fname,lname from student;
+
+View created.
+
+SQL> desc studview
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                    NOT NULL VARCHAR2(20)
+ FNAME                                              VARCHAR2(20)
+ LNAME                                              VARCHAR2(20)
+
+SQL> select * from studview;
+
+ROLLNO               FNAME                LNAME                                 
+-------------------- -------------------- --------------------                  
+13bce151             harshil              anghan                                
+13bce001             abc                  xyzaa                                 
+13bce002             random               AgainRandom                           
+
+SQL> insert into studview values('10bce100','tom','cruise');
+
+1 row created.
+
+SQL> select * from studdata;
+select * from studdata
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> select * from studview;
+
+ROLLNO               FNAME                LNAME                                 
+-------------------- -------------------- --------------------                  
+13bce151             harshil              anghan                                
+13bce001             abc                  xyzaa                                 
+13bce002             random               AgainRandom                           
+10bce100             tom                  cruise                                
+
+SQL> update studview set fname='leonard' where fname='tom';
+
+1 row updated.
+
+SQL> select * from studview;
+
+ROLLNO               FNAME                LNAME                                 
+-------------------- -------------------- --------------------                  
+13bce151             harshil              anghan                                
+13bce001             abc                  xyzaa                                 
+13bce002             random               AgainRandom                           
+10bce100             leonard              cruise                                
+
+SQL> delete from studview where fname='abc';
+
+1 row deleted.
+
+SQL> select * from studview;
+
+ROLLNO               FNAME                LNAME                                 
+-------------------- -------------------- --------------------                  
+13bce151             harshil              anghan                                
+13bce002             random               AgainRandom                           
+10bce100             leonard              cruise                                
+
+SQL> spool off

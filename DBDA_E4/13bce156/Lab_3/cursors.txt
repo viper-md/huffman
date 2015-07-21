@@ -1,0 +1,69 @@
+
+SQL> select * from movies
+  2  ;
+
+      M_ID M_NAME                 CATEGORY              STARER     RATINGS    
+---------- -------------------- ----------------------------- --------------      
+         1 Taken3               A             Lione Nesson       good   
+         2 p.k                  A             Aamir khan         good   
+         3 Intersteller         A             Michale Caine    excellent  
+         4 Kick                 A             Salman khan      very good  
+	 5 bhag milkha bhag     A	      Farhan Akhtar    excellent 
+
+
+
+
+
+declare
+mov_id movies.movie_id%type;
+mov_name movies.movie_name%type;
+catgry movies.category%type;
+CURSOR mov_cr is
+select movie_id,movie_name,category from movies;
+begin
+open mov_cr;
+loop
+fetch mov_cr into mov_id,mov_name,catgry;
+exit when mov_cr%notfound;
+dbms_output.put_line(mov_id ||' || '|| mov_name ||' || '|| catgry);
+end loop;
+close mov_cr;
+end;
+
+1 || taken3 || A
+2 || p.k || A
+3 || intersteller || A
+4 || kick || A
+5 || bhag milkha bhag || A
+
+
+PL/SQL procedure successfully completed.
+
+
+
+
+SQL> declare
+  2     ctgry movies.category%type;
+  3     updated_ctgry varchar2(10);
+  4  CURSOR C is
+  5  SELECT category from movies;
+  6  BEGIN
+  7  dbms_output.put_line('category' || '||' || 'updated_ctgry');
+  8     OPEN C;
+  9     LOOP
+ 10             fetch C into ctgry;
+ 11             updated_ctgry := 'U';
+ 12     exit when C%notfound;
+ 13  dbms_output.put_line(ctgry || '            ' || updated_ctgry);
+ 14  end loop;
+ 15  close C;
+ 16  end;
+ 17  /
+
+category||updated_ctgry
+A              U
+A              U
+A	       U
+A      	       U
+A              U
+PL/SQL procedure successfully completed.

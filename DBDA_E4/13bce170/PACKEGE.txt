@@ -1,0 +1,28 @@
+CREATE OR REPLACE PACKAGE user_data AS
+   TYPE uinfotype IS RECORD (u_id INT, fname varchar(20));
+   CURSOR uid RETURN uinfotype;
+   PROCEDURE user_info (
+      u_id   NUMBER(10),
+      fname  VARCHAR(20),
+      lname    VARCHAR(20),
+      email  VARCHAR(20));
+   PROCEDURE l_user (u_id NUMBER(10));
+END user_data;
+
+CREATE OR REPLACE PACKAGE BODY user_data AS  
+   CURSOR uid RETURN uinfotype IS
+      SELECT u_id,  email ORDER BY fname DESC;
+   PROCEDURE user_info (
+      u_id   NUMBER(10),
+      fname  VARCHAR(20),
+      lname    VARCHAR(20),
+      email  VARCHAR(20)) IS
+   BEGIN
+      INSERT INTO user_info VALUES (u_id, fname,lname, email);
+   END user_info;
+
+   PROCEDURE l_user  (u_id NUMBER) IS
+   BEGIN
+      DELETE FROM l_user WHERE u_id = uid;
+   END l_user;
+END user_data;

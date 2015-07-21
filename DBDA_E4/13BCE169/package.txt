@@ -1,0 +1,25 @@
+SQL> ed
+Wrote file afiedt.buf
+
+  1  CREATE PACKAGE find_1 AS
+  2  PROCEDURE customer;
+  3* END find_1;
+SQL> /
+
+Package created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  CREATE OR REPLACE PACKAGE BODY find_1 AS
+  2  PREOCEDURE customer is
+  3  add customer_info.f_name%type;
+  4  BEGIN
+  5  select f_name into add from man where cid=4;
+  6  dbms_output.put_line('Firstname is'||add);
+  7  END customer;
+  8* END find_1;
+  9  /
+
+Package body created.
+

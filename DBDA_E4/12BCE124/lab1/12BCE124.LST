@@ -1,0 +1,73 @@
+SQL> select * from student
+  2  ;
+
+	ROLL_NUM	SFNAME               SLNAME                      
+---------- -------------------- -------------------- --------- --------- --------- --------- -      
+         S001		raghav               thirani                    
+         S002		kartavya             chauhan               
+         S003		manank               valand                
+         S004		mukul                devrani                  
+
+SQL> create view view_pat1 as select sfname,slname from student;
+
+View created.
+
+SQL> select * from view_pat1;
+
+SFNAME                SLNAME                                                                          
+-------------------- --------------------                                                           
+raghav               thirani                                                                        
+kartavya             chauhan                                                                        
+manank               valand                                                                         
+mukul                devrani                                                                        
+
+SQL> insert into view_pat1 values('surbhi','singhal');
+insert into view_pat1 values('surbhi','singhal')
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("BCE12124"."STUDENT"."ROLL_NUM") 
+
+
+SQL> create view view_pat2 as select roll_num,sfname from student;
+
+View created.
+
+SQL> select * from view_pat2;
+
+ROLL_NUM SFNAME                                                                                    
+---------- --------------------                                                                     
+       S001  raghav                                                                                   
+       S002  kartavya                                                                                 
+       S003  manank                                                                                   
+       S004  mukul                                                                                    
+
+SQL> insert into view_pat2 values(S005,'surbhi');
+
+1 row created.
+
+SQL> select * from view_pat2;
+
+ROLL_NUM SFNAME                                                                                    
+ ---------- --------------------                                                                     
+        S001  raghav                                                                                   
+        S002  kartavya                                                                                 
+        S003  manank                                                                                   
+        S004  mukul                                                                                    
+        S005  surbhi                                                                                   
+
+
+SQL>  update view_pat2 set sfname='raghavt' where roll_num=S001;
+
+1 row updated.
+
+SQL> select * from view_pat2;
+
+ROLL_NUM SFNAME                                                                                    
+---------- --------------------                                                                     
+       S001  raghavt                                                                                  
+       S002  kartavya                                                                                 
+       S003  manank                                                                                   
+       S004  mukul                                                                                    
+       S005  surbhi                                                                                   
+
+SQL> 

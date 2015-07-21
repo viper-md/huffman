@@ -1,0 +1,11 @@
+Practical 8
+
+-----------------------------------------
+contains the following 
+
+-Defined SQL Tables with Normalization
+
+-Implemetation of Collections
+  
+
+Indexing the Values by INDEX BY from CURSOR

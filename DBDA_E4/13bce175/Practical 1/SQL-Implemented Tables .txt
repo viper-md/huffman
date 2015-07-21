@@ -1,0 +1,70 @@
+create table cust
+(
+userid varchar(20),
+password varchar(20),
+fname varchar(20),
+lname varchar(20),
+address varchar(100),
+city varchar(20),
+zstate varchar(20),
+eaddress varchar(20),
+phno INTEGER,
+PRIMARY KEY(userid)
+)
+create table books
+(
+inventid INTEGER,
+bname varchar(20),
+author varchar(20),
+nbooks INTEGER,
+price DOUBLE PRECISION,
+PRIMARY KEY(inventid)
+);
+
+insert into books values(1,'Howto','Paulo',1,300);
+ create table state_tax
+ (
+  statename varchar(20),
+ statetaxrate DOUBLE PRECISION,
+ PRIMARY KEY(statename)
+ );
+create table order_det
+(
+ orderid integer,
+userid varchar(20),
+recname varchar(20),
+address varchar(20),
+city varchar(20),
+zip varchar(20),
+statename varchar(20),
+typeofshipping varchar(20),
+dateofpurchase DATE,
+PRIMARY KEY(orderid),
+FOREIGN KEY (userid) REFERENCES cust(userid),
+FOREIGN KEY (statename) REFERENCES state_tax(statename),
+FOREIGN KEY (typeofshipping) REFERENCES shippingtype(typeofshipping)
+);
+create table shippingtype
+(
+typeofshipping varchar(20),
+price NUMBER,
+deliverydate INTEGER,
+PRIMARY KEY(typeofshipping)
+);
+
+
+insert into cust values (5,'lengthy','Smarter','Thinner','Faster','Thin','Heavy','kill@kill.gov',123123);
+insert into books values(5,'Whereto','Monteiro',5,5);
+CREATE VIEW views as
+SELECT author,price
+FROM books
+WHERE USERID='1'
+
+
+    insert into view1 values(12345,'cpp','mahajan');
+ALTER TABLE books
+DROP table books
+ALTER TABLE books
+ADD nbooks varchar(20)
+
+insert into shop_cart_item values(2,2,1500,25,2,10);

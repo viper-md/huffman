@@ -1,0 +1,86 @@
+PERMANENT
+CREATE TABLESPACE tbs1
+  DATAFILE 'tbs_per01.dat' 
+    SIZE 20M
+  ONLINE;
+ 
+
+  TEMPORARY
+  CREATE TEMPORARY TABLESPACE tbs2_temp
+  TEMPFILE 'tbs_temp01.dbf'
+    SIZE 5M
+    AUTOEXTEND ON;
+ 
+
+UNDO
+CREATE UNDO TABLESPACE tbs3_undo
+  DATAFILE 'tbs_undo01.f'
+    SIZE 5M 
+    AUTOEXTEND ON;
+ 
+	
+CREATE USER
+
+CREATE USER vjm
+  IDENTIFIED BY vjm123
+  DEFAULT TABLESPACE tbs1
+  TEMPORARY TABLESPACE tbs2_temp
+  QUOTA 20M on tbs1;
+ 
+
+  
+PRIVILEGES
+
+GRANT SELECT, INSERT, DELETE ON product TO vjm;
+ 
+
+
+CREATE ROLES AND ASSIGN TO USER
+CREATE ROLE student 
+IDENTIFIED BY student123;
+
+GRANT SELECT, INSERT, DELETE ON product TO student;
+
+GRANT student to vjm;
+ 
+
+
+CREATE USER WITH SYSTEM PRIVILEGES
+
+CREATE USER vjm2
+    IDENTIFIED BY vjm2123
+    DEFAULT TABLESPACE tbs1
+    TEMPORARY TABLESPACE tbs2_temp
+	
+GRANT create session TO vjm2;
+ 
+
+
+QUERY DYNAMIC VIEWS
+ 
+ select * from v$asm_file;
+ 
+ select * from v$asm_client;
+ 
+ select * from v$asm_disk;
+ 
+
+ 
+ QUERY ONLINE REDO LOG FILES
+ 
+ select * from v$logfile where type='ONLINE';
+ 
+
+ADD NEW GROUP TO REDO LOG FILE || ADD NEW MEMBER TO REDO LOG FILE
+alter DATABASE ADD logfile ('C:\ORACLE\PRODUCT\10.2.0\ORADATA\ORCL\v_log1.LOG') SIZE 5M; 
+ALTER DATABASE ADD LOGFILE MEMBER 'C:\ORACLE\PRODUCT\10.2.0\ORADATA\ORCL\v_log2.LOG' TO GROUP 3;
+
+ 
+
+DROP USER AND ROLES
+drop role student;
+drop user vjm2;
+ 
+
+
+

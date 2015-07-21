@@ -1,0 +1,39 @@
+SQL> select * from books1;
+
+     ISBN B_NAME                                             B_STATUS   B_ADDITION      A_ID
+--------- -------------------------------------------------- ---------- ---------- ---------
+      101 dbda                                               avail               8         1
+      102 dos                                                n-avail             6         3
+      103 ppl                                                avail               9         2
+
+SQL> ed;
+Wrote file afiedt.buf
+
+line 6 truncated.
+  1  CREATE OR REPLACE TRIGGER MYBOOK BEFORE INSERT OR UPDATE OF B_ADDITION ON A_ID FOR EACH ROW
+  2  BEGIN
+  3    IF :NEW.B_ADDITION  < 0 THEN
+  4      RAISE_APPLICATION_ERROR(-20100,'please insert a positive value');
+  5    END IF;
+  6* END MYBOOK
+SQL> /
+CREATE OR REPLACE TRIGGER MYBOOK BEFORE INSERT OR UPDATE OF B_ADDITION ON A_ID FOR EACH ROW
+                                                                          *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> ED;
+Wrote file afiedt.buf
+
+  1  CREATE OR REPLACE TRIGGER MYBOOK BEFORE INSERT OR UPDATE OF B_ADDITION ON BOOKS1 FOR EACH ROW
+  2  BEGIN
+  3    IF :NEW.B_ADDITION  < 0 THEN
+  4      RAISE_APPLICATION_ERROR(-20100,'please insert a positive value');
+  5    END IF;
+  6* END MYBOOK
+SQL> /
+
+Warning: Trigger created with compilation errors.
+
+SQL> 

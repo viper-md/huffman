@@ -1,0 +1,10 @@
+Practical 3
+
+-----------------------------------------
+contains the following 
+
+-Defined SQL Tables with Normalization
+
+- Exception Handling
+
+- User Defined Functions

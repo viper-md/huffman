@@ -1,0 +1,49 @@
+SQL>create table Person(driver_no varchar2(10) PRIMARY KEY,F_name char(10),L_name char(10),Address varchar2(30));
+
+table created.
+
+SQL>create table Car(RegNo varchar2(10) PRIMARY KEY,model varchar2(10),year number(5));
+
+table created.
+
+SQL>create table accident(ReportNo varchar2(10) PRIMARY KEY,A_Date date,location varchar2(25));
+
+table created.
+
+SQL>create table Owns(driver_no varchar2(10) FOREIGN KEY REFERENCES Person(driver_id),RegNo varchar2(10) FOREIGN KEY REFERENCES car(RegNo));
+
+SQL>insert into car values('A101','A1',2000);
+
+Row inserted.
+
+SQL>insert into car values('B101','B2',1998);
+
+Row inserted.
+
+SQL>insert into accident values('102',17-aug-04,'a10 citylight');
+
+Row inserted.
+
+SQL>insert into accident values('101',01-feb-98,'10 naranpura');
+
+Row inserted.
+
+SQL> create view car1 as select year from car;
+
+View created.
+
+SQL> select * from car1;
+
+     YEAR                                                                                           
+---------                                                                                           
+     2000                                                                                           
+     1998 
+
+SQL> create view car2 as select year from car where year=2000;
+
+View created.
+
+SQL> insert into car1 values('C103','F12',2006);
+
+Row inserted.
+    

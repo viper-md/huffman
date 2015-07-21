@@ -1,0 +1,40 @@
+----- Package Specification
+
+CREATE PACKAGE email_name AS 
+	PROCEDURE find_email(email student.fname%type); 
+END email_name;
+
+Package created.
+
+
+------ Package Body
+
+CREATE OR REPLACE PACKAGE BODY email_name AS 
+	PROCEDURE find_email(email student.fname%TYPE) IS 
+	email1 student.email_add%TYPE; 
+BEGIN 
+SELECT email_add INTO email1 
+FROM student 
+WHERE fname = email; 
+	dbms_output.put_line('Email Id Is: '|| email1); 
+END find_email; 
+END email_name;
+
+Package body created.
+
+
+------- Pcakage Elements
+
+DECLARE 
+email1_add student.fname%type := &fname1; 
+
+BEGIN 
+email_name.find_email(email1_add); 
+
+END;
+
+
+Enter value for fname1:harshil
+Email Id Is: abc@gmail.com
+
+PL/SQL procedure successfully completed.

@@ -1,0 +1,33 @@
+
+----- this function it used for to returen the total number of product in tb_sop_pro table
+
+set serveroutput on
+CREATE OR REPLACE FUNCTION totalproduct
+ RETURN number IS total number(2) := 0;
+ BEGIN SELECT count(*) into total FROM tb_sop_pro;
+ RETURN total;
+END;
+/
+
+Function created.
+
+DECLARE pro number(2);
+ BEGIN
+ pro := totalproduct();
+   dbms_output.put_line('Total product: ' || pro);
+END;
+/
+
+Total product: 3
+
+PL/SQL procedure successfully completed.
+
+
+
+SQL> select * from tb_sop_pro;
+
+P_ID                 C_ID                 P_NM                 P_DESC                    PRICE        QTY   P_STATUS
+-------------------- -------------------- -------------------- -------------------- ---------- -----
+p001                 c001                 lenovo_z570          1tb_hdd                   47000          5          1
+p002                 c002                 iphone_6             128gb                     73000          4          1
+p003                 c003                 titan                dimond_watch              25000          2          0

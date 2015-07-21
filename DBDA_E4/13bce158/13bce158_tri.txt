@@ -1,0 +1,53 @@
+
+---- this trigger it will be used for insert or update will fire in tb_sop_pro and change the price of the update a new price and diffrence old price
+
+SQL> select * from tb_sop_pro;
+
+P_ID                 C_ID                 P_NM                 P_DESC                    PRICE        QTY   P_STATUS
+-------------------- -------------------- -------------------- -------------------- ---------- -----
+p001                 c001                 lenovo_z570          1tb_hdd                   47000          5          1
+p002                 c002                 iphone_6             128gb                     73000          4          1
+p003                 c003                 titan                dimond_watch              25000          2          0
+
+create or replace trigger trg1
+before delete or insert or update on tb_sop_pro
+for each row
+declare
+   pri_diff number;
+begin
+   pri_diff := :new.price - :old.price;
+   dbms_output.put_line('old price:' || :old.price);
+   dbms_output.put_line('new price:' || :new.price);
+   dbms_output.put_line('pri_difference:' || pri_diff);
+end;
+/
+
+Trigger created.
+
+insert into tb_sop_pro(p_id,c_id,p_nm,p_desc,price,qty,p_status)
+values('p004','c004','rolex','waterproof',235000,2,1);
+
+update tb_sop_pro set p_nm='tissot'where p_nm='rolex';
+old price:235000
+new price:235000
+pri_difference:0
+
+1 row updated.
+
+update tb_sop_pro set price='230000' where price='235000';
+old price:235000
+new price:230000
+pri_difference:-5000
+
+SQL> select * from tb_sop_pro;
+
+P_ID                 C_ID                 P_NM                 P_DESC                    PRICE        QTY   P_STATUS
+-------------------- -------------------- -------------------- -------------------- ---------- -----
+p001                 c001                 lenovo_z570          1tb_hdd                   47000          5          1
+p002                 c002                 iphone_6             128gb                     73000          4          1
+p003                 c003                 titan                dimond_watch              25000          2          0
+p004                 c004                 tissot               waterproof               230000          2          1
+
+
+
+

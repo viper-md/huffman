@@ -1,0 +1,21 @@
+SQL> ed
+Wrote file afiedt.buf
+
+  1  CREATE OR REPLACE TRIGGER tr_1
+  2  BEFORE DELETE OR UPDATE
+  3  ON CUSTOMER_INFO
+  4  FOR EACH ROW
+  5  WHEN(new.L_NAME='RAVAL')
+  6  DECLARE
+  7  LNAME CUSTOMER_INFO.L_NAME%type;
+  8  BEGIN
+  9  dbms_output.put_line('LASTNAME CHANGED');
+ 10* END;
+ 11  /
+
+Trigger created.
+
+SQL> update CUSTOMER_INFO set L_NAME='PATEL' where C_ID='1';
+LASTNAME CHANGED
+
+1 row updated.

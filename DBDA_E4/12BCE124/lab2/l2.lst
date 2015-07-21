@@ -1,0 +1,38 @@
+SQL> select * from exam;
+
+      EXAM_ID  DEPT_ID           SEM       YEAR       CATEGORY                                  
+---------- ---------- ---------- ---------- ----------                                    
+         E001  D001              4       2015       SE                                     
+         E002  D001              6       2015       MSE                             
+         E003  D005              8       2015       MSE                              
+
+SQL> DECLARE
+  2  	type varchar2(10);
+  3  	semester exam.sem%type;
+  4  	cato exam.category%type;
+  5  	
+  6  	cursor s1 is select sem,category from exam where sem=6 and category='MSE';
+  7  BEGIN
+  8  	OPEN s1;
+  9  	LOOP
+ 10  		FETCH s1 into semester,cato;
+ 11  		EXIT when s1%NOTFOUND;
+ 12  		type:='SE'
+ 13  		UPDATE exam SET category=type where category=cato and sem=semester;
+ 14  	END LOOP;
+ 15  	CLOSE s1;
+ 16  END;
+ 17  /
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from exam;
+
+      EXAM_ID  DEPT_ID           SEM       YEAR       CATEGORY                                  
+---------- ---------- ---------- ---------- ----------                                    
+         E001  D001              4       2015       SE                                     
+         E002  D001              6       2015       SE                             
+         E003  D005              8       2015       MSE   
+
+                  
+SQL> spool off;

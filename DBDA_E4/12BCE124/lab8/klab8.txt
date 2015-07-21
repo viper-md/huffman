@@ -1,0 +1,47 @@
+SQL> select * from student;
+
+ROLL_NUM   SFNAME          SLNAME                                                                   
+---------- --------------- ---------------                                                          
+s001       kartavya        chauhan                                                                  
+s002       raghav          thirani                                                                  
+s003       mukul           devrani                                                                  
+4          siddharth       laddha                                                                   
+5          Shubham         bharadi                                                                  
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace PROCEDURE addstudent(id student.roll_num%TYPE,frst student.sfname%TYPE,last student.slname%TYPE)
+  2  IS
+  3  BEGIN
+  4  insert into student(roll_num,sfname,slname) values(id,frst,last);
+  5* END;
+SQL> /
+
+Procedure created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  DECLARE
+  2  BEGIN
+  3  	addstudent(6,'anmol','kutta');
+  4* END;
+  5  /
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from student;
+
+ROLL_NUM   SFNAME          SLNAME                                                                   
+---------- --------------- ---------------                                                          
+s001       kartavya        chauhan                                                                  
+s002       raghav          thirani                                                                  
+s003       mukul           devrani                                                                  
+4          siddharth       laddha                                                                   
+5          Shubham         bharadi                                                                  
+6          anmol           kutta                                                                    
+
+6 rows selected.
+
+SQL> spool off;

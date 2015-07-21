@@ -1,0 +1,58 @@
+SQL> create view view_cpminfo as select cmp_id,cmp_nm,cmp_titel,cmp_email,cmp_status from tb_company;
+
+View created.
+
+SQL> select * from view_cpminfo;
+
+cmp_id  cmp_nm                          cmp_titel      cmp_email                cmp_status
+------  -----------------------------   ------------   --------------------     ----------
+2	R.K.Infotech	                R.K.123		        		active
+3	predalite	                predalite456				active
+4	Reliance ind.	                reliance123				active
+5	ABC pvt ltd	                pvc		        		active
+23	Vishawnath Pvt. Ltd             VSP					active
+22	Microsoft Pvt. Ltd.        	mspl					active
+24	Infosys Pvt. Ltd.     		inf					active
+25	B2B-Software-Technologies-Ltd	b213		aksjflk@gmail.com	active
+26	jksdhfjk			jksahdfjk	jksdhfkjh@gmail.com	active
+
+SQL> insert into view_cpminfo values(27,'Vini Metales Pvt Ltd','Vini Metales',' infovini@gmail.com','active');
+
+1 row created.
+
+SQL> select * from view_cpminfo;
+
+cmp_id  cmp_nm                          cmp_titel      cmp_email                cmp_status
+------  -----------------------------   ------------   --------------------     ----------
+2	R.K.Infotech	                R.K.123		        		active
+3	predalite	                predalite456				active
+4	Reliance ind.	                reliance123				active
+5	ABC pvt ltd	                pvc		        		active
+23	Vishawnath Pvt. Ltd             VSP					active
+22	Microsoft Pvt. Ltd.        	mspl					active
+24	Infosys Pvt. Ltd.     		inf					active
+25	B2B-Software-Technologies-Ltd	b213		aksjflk@gmail.com	active
+26	jksdhfjk			jksahdfjk	jksdhfkjh@gmail.com	active
+27	Vini Metales Pvt Ltd		Vini Metales	infovini@gmail.com	active
+
+SQL> UPDATE view_cpminfo SET `cmp_titel` = 'vini metales Pvt Ltd' WHERE cmp_id = 27;
+
+1 row updated.
+
+SQL> delete from view_cpminfo where cmp_id = 27;
+
+1 row deleted.
+
+SQL> select * from view_cpminfo;
+
+cmp_id  cmp_nm                          cmp_titel      cmp_email                cmp_status
+------  -----------------------------   ------------   --------------------     ----------
+2	R.K.Infotech	                R.K.123		        		active
+3	predalite	                predalite456				active
+4	Reliance ind.	                reliance123				active
+5	ABC pvt ltd	                pvc		        		active
+23	Vishawnath Pvt. Ltd             VSP					active
+22	Microsoft Pvt. Ltd.        	mspl					active
+24	Infosys Pvt. Ltd.     		inf					active
+25	B2B-Software-Technologies-Ltd	b213		aksjflk@gmail.com	active
+26	jksdhfjk			jksahdfjk	jksdhfkjh@gmail.com	active

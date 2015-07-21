@@ -1,0 +1,21 @@
+create or replace procedure moviename as 
+movie_name1 movies.MOVIE_NAME%type;
+movie_id2 movies.movie_id%type;
+cursor c_select is select MOVIE_NAME from movies;
+begin
+open c_select;
+loop
+fetch c_select into movie_name1;
+select  MOVIE_NAME into movie_name1 from movies where MOVIE_ID=2;
+dbms_output.put_line(movie_name1);
+exit when c_select%notfound;
+end loop;
+close c_select;
+end;
+
+procedure created.
+
+SQL> EXECUTE MOVIENAME;
+p.k
+
+PL/SQL procedure successfully completed.

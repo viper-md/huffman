@@ -1,0 +1,172 @@
+SQL> create table books(isbn int not null primary key,b_name varchar(50) not null,b_status varchar(1
+
+  2  
+SQL> create table books1(isbn int not null primary key,b_name varchar(50) not null,b_status varchar(
+10) not null,b_addition int not null,a_id int not null);
+
+Table created.
+
+SQL> create table membor(m_id int not null primary key,m_fname varchar(50) not null,m_lname varchar(
+50) not null,add_id int not null,m_phone int not null,m_email varchar(50) not null);
+
+Table created.
+
+SQL> select * from tag;
+select * from tag
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE CLUSTERID
+------------------------------ ------- ---------
+ADDRESS                        TABLE
+AUTHOR                         TABLE
+BIN$LpuCDC3bTzOXG9iRkFMryQ==$0 TABLE
+BOOKS                          TABLE
+BOOKS1                         TABLE
+BOOK_AUTHOR                    TABLE
+BOOK_TYPE                      TABLE
+CUST                           TABLE
+CUSTOMER                       TABLE
+FACULTY                        TABLE
+MEMBOR                         TABLE
+ORDERSSS                       TABLE
+PERSON                         TABLE
+PERSONS                        TABLE
+PERSONSS                       TABLE
+PERSONSSSS                     TABLE
+POSTCODE                       TABLE
+PUBLISHER                      TABLE
+SELSEMAN                       TABLE
+SELSEPEOPLE                    TABLE
+STUDENT                        TABLE
+
+TNAME                          TABTYPE CLUSTERID
+------------------------------ ------- ---------
+STUDENTS                       TABLE
+
+22 rows selected.
+
+SQL> create table address(a_id int not null primary key,add_des varchar(100) not null,postcode int n
+ot null);
+create table address(a_id int not null primary key,add_des varchar(100) not null,postcode int not nu
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> create table address1(a_id int not null primary key,add_des varchar(100) not null,postcode int 
+not null);
+
+Table created.
+
+SQL> create table borrow(b_id int not null primary key,m_id int not null,isbn int not null,b_date da
+te not null,ret_date date not null);
+
+Table created.
+
+SQL> create table fine(f_id int not null primary key,b_id int not null,fine_amount int not null,fine
+_paid int not null);
+
+Table created.
+
+SQL> insert into books1 values(101,'dbda','avail',8,1);
+
+1 row created.
+
+SQL> insert into books1 values(102,'dos','n-avail',6,3);
+
+1 row created.
+
+SQL> insert into books1 values(103,'ppl','avail',9,2);
+
+1 row created.
+
+SQL> insert into author values(1,'k','kachot','kkachot@gmail.com');
+insert into author values(1,'k','kachot','kkachot@gmail.com')
+            *
+ERROR at line 1:
+ORA-00913: too many values
+
+
+SQL> select * from author;
+
+no rows selected
+
+SQL> insert into membor values(1,'tejal','shah',1,9845637845,'tejal@gmail.com');
+
+1 row created.
+
+SQL> insert into membor values(2,'shaily','shah',2,9845897845,'shaily@gmail.com');
+
+1 row created.
+
+SQL> insert into membor values(3,'bhavika','parmar',3,9845869878,'bhavika@gmail.com');
+
+1 row created.
+
+SQL> select * from books1;
+
+     ISBN B_NAME                                             B_STATUS   B_ADDITION      A_ID
+--------- -------------------------------------------------- ---------- ---------- ---------
+      101 dbda                                               avail               8         1
+      102 dos                                                n-avail             6         3
+      103 ppl                                                avail               9         2
+
+SQL> select * from membor;
+
+     M_ID M_FNAME
+--------- --------------------------------------------------
+M_LNAME                                               ADD_ID   M_PHONE
+-------------------------------------------------- --------- ---------
+M_EMAIL
+--------------------------------------------------
+        1 tejal
+shah                                                       1 9.846E+09
+tejal@gmail.com
+
+        2 shaily
+shah                                                       2 9.846E+09
+shaily@gmail.com
+
+        3 bhavika
+parmar                                                     3 9.846E+09
+bhavika@gmail.com
+
+
+SQL> ed;
+Wrote file afiedt.buf
+
+line 6 truncated.
+  1  DECLARE
+  2  v_memborid number(10):=1;
+  3  v_firstname varchar(50);
+  4  BEGIN
+  5  select m_fname into v_firstname from membor where m_id=v_memborid;
+  6* end
+SQL> /
+DECLARE
+*
+ERROR at line 1:
+ORA-06550: line 7, column 0:
+PLS-00103: Encountered the symbol "end-of-file" when expecting one of the following:
+; <an identifier> <a double-quoted delimited-identifier>
+The symbol ";" was substituted for "end-of-file" to continue.
+
+
+SQL> ed;
+Wrote file afiedt.buf
+
+  1  DECLARE
+  2  v_memborid number(10):=1;
+  3  v_firstname varchar(50);
+  4  BEGIN
+  5  select m_fname into v_firstname from membor where m_id=v_memborid;
+  6* end;
+SQL> /
+PL/SQL procedure successfully completed.
+
+SQL> 

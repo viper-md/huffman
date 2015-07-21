@@ -1,0 +1,16 @@
+Practical 2
+
+
+-----------------------------------------
+contains the following 
+
+ Retrieving the Data from Table  
+
+- Fetching of Data in Cursor
+
+- Using Implicit Cusror
+  
+ %NOTFOUND
+
+ %OPEN
+

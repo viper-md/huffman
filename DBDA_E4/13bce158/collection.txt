@@ -1,0 +1,60 @@
+select * from tb_sop_reg;
+
+------ INDEX BY BINAR_INTEGER
+
+U_ID                 REG_NM               E_MAIL               PWD                  ADDR                 CITY                 STATE                     MO_NO
+-------------------- -------------------- -------------------- -------------------- ----------------
+u001                 vishal               vk@gmail.com         123                  ranip                ahmedabad            gujarat              1234567890
+u002                 abhijit              as@yahoo.com         456                  yagnik road          rajkot               gujarat              132568780
+u003                 jainesh              jl@outlook.com       789                  janta bazar          surat                gujarat              313497987
+u004                 kuldeep              ak@gmail.com         0123                 majura gate          mumbai               maharastra           134654
+
+DECLARE
+ CURSOR c_user is
+ select reg_nm from tb_sop_reg;
+   TYPE c_list IS TABLE of tb_sop_reg.reg_nm%type INDEX BY binary_integer;
+        name_list c_list;
+        counter integer :=0;
+BEGIN
+ FOR n IN c_user LOOP
+   counter := counter +1;
+           name_list(counter) := n.reg_nm;
+   dbms_output.put_line('User('||counter|| '):'||name_list(counter));
+END LOOP;
+END;
+/
+
+User(1):vishal
+User(2):abhijit
+User(3):jainesh
+User(4):kuldeep
+
+PL/SQL procedure successfully completed.
+
+
+
+
+------  VARRAY
+
+DECLARE
+TYPE price IS TABLE OF NUMBER INDEX BY VARCHAR2(20);
+   price_list price;
+name VARCHAR2(20);
+BEGIN
+-- adding elements to the table
+price_list('lenovo_z570') := 47000;
+price_list('iphone6') := 75000;
+price_list('titen') := 100000;
+-- printing the table
+name := price_list.FIRST;
+WHILE name IS NOT null LOOP
+    dbms_output.put_line ('Price of ' || name || ' is ' || TO_CHAR(price_list(name))); name := price_list.NEXT(name);
+END LOOP;
+END;
+/
+
+Price of iphone6 is 75000
+Price of lenovo_z570 is 47000
+Price of titen is 100000
+
+PL/SQL procedure successfully completed.

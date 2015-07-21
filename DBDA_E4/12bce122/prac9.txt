@@ -1,0 +1,62 @@
+1) create a new < name > tablespace with a new datafile
+
+	CREATE TABLESPACE my_tablespace DATAFILE ’/u01/oracle/oradata/data01.dbf’;
+
+2) create a new undo <name> tablespace with a new data file
+	
+	CREATE UNDOTABLESPACE my_tablespace DATAFILE ’/u01/oracle/oradata/data01.dbf’;
+
+3) create a new temporary <name> tablespace with a new datafile
+	
+	CREATE TEMPORARYTABLESPACE temp_tablespace ’/u01/oracle/oradata/data01.dbf’; 
+
+4) create user with above tablespace with quota information
+
+	CREATE USER raghav
+  	IDENTIFIED BY raghav
+  	DEFAULT TABLESPACE my_tablespace
+  	TEMPORARY TABLESPACE temp_tablespace
+  	QUOTA 20M on tbs_perm_01;
+	
+
+5) create a priviledge (list of privilidge) and assign it to newly created user 
+
+
+
+6) create different roles and assign it to different users.
+
+
+
+7) create new users with built in system priviledged
+
+
+
+8) query all related dynamic views to get related information
+
+
+
+9) query online redo log file location
+
+
+
+10) add a new group to online redo log
+
+	ALTER DATABASE 
+  	ADD LOGFILE GROUP 10 ('/oracle/dbs/log1c.rdo', '/oracle/dbs/log2c.rdo')
+        SIZE 4M;
+
+
+11) add new member to redo log file
+
+	ALTER DATABASE ADD LOGFILE MEMBER '/oracle/dbs/log2c.rdo'
+        TO ('/oracle/dbs/log2a.rdo', '/oracle/dbs/log2b.rdo'); 
+
+Dropping all of them:
+
+ALTER DATABASE   DROP LOGFILE MEMBER 'log3c';- for members
+
+ALTER DATABASE DROP LOGFILE GROUP 3; for groups
+
+
+
+

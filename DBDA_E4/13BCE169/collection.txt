@@ -1,0 +1,33 @@
+SQL> ed
+Wrote file afiedt.buf
+
+  1  DECLARE
+  2     type namesarray IS VARRAY(5) OF VARCHAR2(10);
+  3     type grades IS VARRAY(5) OF INTEGER;
+  4     names namesarray;
+  5     marks grades;
+  6     total integer;
+  7  BEGIN
+  8     names := namesarray('Kavita', 'Pritam', 'Ayan', 'Rishav', 'Aziz');
+  9     marks:= grades(98, 97, 78, 87, 92);
+ 10     total := names.count;
+ 11     dbms_output.put_line('Total '|| total || ' Students');
+ 12     FOR i in 1 .. total LOOP
+ 13        dbms_output.put_line('Student: ' || names(i) || '
+ 14        Marks: ' || marks(i));
+ 15     END LOOP;
+ 16* END;
+ 17  /
+Total 5 Students
+Student: Kavita
+      Marks: 98
+Student: Pritam
+      Marks: 97
+Student: Ayan
+      Marks: 78
+Student: Rishav
+      Marks: 87
+Student: Aziz
+      Marks: 92
+
+PL/SQL procedure successfully completed.

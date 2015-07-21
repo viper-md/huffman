@@ -1,0 +1,50 @@
+SQL> select * from tb_sop_pro;
+
+P_ID                 C_ID                 P_NM                 P_DESC                    PRICE        QTY   P_STATUS
+-------------------- -------------------- -------------------- -------------------- ---------- -----
+p001                 c001                 lenovo_z570          1tb_hdd                   47000          5          1
+p002                 c002                 iphone_6             128gb                     73000          4          1
+p003                 c003                 titan                dimond_watch              25000          2          0
+
+
+declare
+mp_desc varchar2(20);
+begin
+select p_desc into mp_desc from tb_sop_pro where p_desc='128gb';
+if mp_desc='128gb' then
+update tb_sop_pro set p_desc='64gb' where p_desc=mp_desc;
+end if;
+dbms_output.put_line(mp_desc);
+end;
+/
+PL/SQL procedure successfully completed.
+
+
+SQL> select * from tb_sop_pro;
+
+P_ID                 C_ID                 P_NM                 P_DESC                    PRICE        QTY   P_STATUS
+-------------------- -------------------- -------------------- -------------------- ---------- -----
+p001                 c001                 lenovo_z570          1tb_hdd                   47000          5          1
+p002                 c002                 iphone_6             64gb                      73000          4          1
+p003                 c003                 titan                dimond_watch              25000          2          0
+
+ declare
+ mp_price number(10);
+ begin
+ select price into mp_price from tb_sop_pro where price='73000';
+ if mp_price='73000' then
+ update tb_sop_pro set price='65000' where price=mp_price;
+ end if;
+ dbms_output.put_line(mp_price);
+ end;
+ /
+PL/SQL procedure successfully completed.
+
+
+SQL> select * from tb_sop_pro;
+
+P_ID                 C_ID                 P_NM                 P_DESC                    PRICE        QTY   P_STATUS
+-------------------- -------------------- -------------------- -------------------- ---------- -----
+p001                 c001                 lenovo_z570          1tb_hdd                   47000          5          1
+p002                 c002                 iphone_6             64gb                      65000          4          1
+p003                 c003                 titan                dimond_watch              25000          2          0

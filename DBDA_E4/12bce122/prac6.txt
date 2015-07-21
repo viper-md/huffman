@@ -1,0 +1,51 @@
+Create table CLUB_MEMBERS
+(
+	MEMBER_ID Varchar(10),
+	MEMBER_fname Varchar(30) NOT NULL,
+	MEMBER_lname Varchar(30) NOT NULL,
+	member_phone number(20),
+	member_add_id varchar(30),
+	joining_date date,
+	expiry_date date,
+	m_type_id varchar(20)
+	Constraint CLUB_cts1 PRIMARY KEY(MEMBER_ID)
+) 
+
+
+
+CREATE OR REPLACE PACKAGE mem AS
+  2  	PROCEDURE addmember(id member.member_id%TYPE,frst member.member_fname%TYPE,last member.member_lname%TYPE);
+  3  	PROCEDURE delmember(id member.memp%TYPE);
+  4  END mem;
+  5  /
+
+Package created.
+
+SQL> CREATE OR REPLACE PACKAGE BODY mem AS
+  2  	PROCEDURE addmember(id member.member_id%TYPE,frst member.member_fname%TYPE,last member.member_lname%TYPE)
+  3  	IS
+  4  	BEGIN
+  5  		insert into member(member_id,member_fname,member_lname) values(id,frst,last);
+  6  	END addmember;
+  7  
+  8  	PROCEDURE delmember(id member.member_id%TYPE)
+  9  	IS
+ 10  	BEGIN
+ 11  		delete from member where member_id=id;
+ 12  	END delmember;
+ 13  END mem;
+ 14  /
+
+Package body created.
+
+SQL> DECLARE
+  2  	code member.member_id%type:=8;
+  3  BEGIN
+  4  	mem.addmember(4,'anmol','dani');
+  5  	mem.addmember(6,'raghav','thirani');
+  6  	mem.addmember(8,'himani','rajgor');
+  7  	mem.delmember(code);
+  8  END;
+  9  /
+
+PL/SQL procedure successfully completed.

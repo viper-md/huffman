@@ -1,0 +1,48 @@
+SQL> select * from membor;
+
+     M_ID M_FNAME
+--------- --------------------------------------------------
+M_LNAME                                               ADD_ID   M_PHONE
+-------------------------------------------------- --------- ---------
+M_EMAIL
+--------------------------------------------------
+        101 tejal
+shah                                                       1 9.846E+09
+tejal@gmail.com
+
+        102 shaily
+shah                                                       2 9.846E+09
+shaily@gmail.com
+
+        103 bhavika
+parmar                                                     3 9.846E+09
+bhavika@gmail.com
+
+
+SQL> ed;
+Wrote file afiedt.buf
+
+line 21 truncated.
+  1  DECLARE
+  2        v_Fname VARCHAR(20);
+  3        v_Lname VARCHAR(20);
+  4        v_Uid  NUMBER(5);
+  5        CURSOR C_Userinfo IS
+  6        SELECT M_FNAME,M_LNAME,M_ID FROM membor;
+  7  Begin
+  8        OPEN C_Userinfo;
+  9        LOOP
+ 10           FETCH C_Userinfo INTO v_Fname, v_Lname,v_Uid;
+ 11           EXIT WHEN c_Userinfo%NOTFOUND;
+ 12           if v_Uid>100 Then
+ 13              RAISE no_recordfound;
+ 14           end if;
+ 15        dbms_output.put_line(U_id || ' ' || 'U_Id is  ' || v_Uid);
+ 16        END LOOP;
+ 17        CLOSE c_Userinfo;
+ 18  Exception
+ 19        WHEN no_recordfound THEN
+ 20        dbms_output.put_line('No info of user.');
+ 21 End
+ 22  /
+PL/SQL procedure successfully completed.

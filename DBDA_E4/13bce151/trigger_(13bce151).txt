@@ -1,0 +1,24 @@
+ CREATE OR REPLACE TRIGGER display_student
+ AFTER UPDATE ON student
+ FOR EACH ROW
+ DECLARE
+ OPER VARCHAR2(10);
+ BEGIN
+ IF updating THEN
+ OPER:='UPDATE';
+ END IF;
+        
+ insert into student1 values(:OLD.roll_no,:OLD.fname,:OLD.lname,:OLD.address,OPER);
+ END;
+ 
+ /
+
+CREATE OR REPLACE TRIGGER display_student1
+AFTER UPDATE OR DELETE OR INSERT ON student
+FOR EACH ROW
+BEGIN       
+dbms_output.put_line(:new.roll_no);
+dbms_output.put_line(:new.fname);
+dbms_output.put_line(:new.lname);
+dbms_output.put_line(:new.address); 
+END;

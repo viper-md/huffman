@@ -1,0 +1,63 @@
+SQL> select * from student;
+
+ROLL_NUM   SFNAME          SLNAME                                                                   
+---------- --------------- ---------------                                                          
+s001       kartavya        chauhan                                                                  
+s002       raghav          thirani                                                                  
+s003       mukul           devrani                                                                  
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+line 5 truncated.
+  1  CREATE OR REPLACE PACKAGE stud AS
+  2      	PROCEDURE addstudent(id student.roll_num%TYPE,frst student.sfname%TYPE,last student.slname%TYPE);
+  3      	PROCEDURE delstudent(id student.roll_num%TYPE);
+  4*     END stud;
+  5  /
+
+Package created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  CREATE OR REPLACE PACKAGE BODY stud AS
+  2  PROCEDURE addstudent(id student.roll_num%TYPE,frst student.sfname%TYPE,last student.slname%TYPE)
+  3  IS
+  4  BEGIN
+  5  insert into student(roll_num,sfname,slname) values(id,frst,last);
+  6  END addstudent;
+  7  PROCEDURE delstudent(id student.roll_num%TYPE)
+  8  IS
+  9  BEGIN
+ 10  delete from student where roll_num=id;
+ 11  END delstudent;
+ 12* END stud;
+ 13  /
+
+Package body created.
+
+SQL> declare
+  2   code student.roll_num%type:=8;
+  3  begin
+  4   stud.addstudent(4,'siddharth','laddha');
+  5   stud.addstudent(5,'Shubham','bharadi');
+  6   stud.addstudent(8,'Mukesh','Harane');
+  7   stud.delstudent(code);
+  8  end;
+  9  /
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from student;
+
+ROLL_NUM   SFNAME          SLNAME                                                                   
+---------- --------------- ---------------                                                          
+s001       kartavya        chauhan                                                                  
+s002       raghav          thirani                                                                  
+s003       mukul           devrani                                                                  
+4          siddharth       laddha                                                                   
+5          Shubham         bharadi                                                                  
+
+SQL> spool off;

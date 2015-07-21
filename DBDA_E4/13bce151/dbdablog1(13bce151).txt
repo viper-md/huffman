@@ -1,0 +1,194 @@
+1.  Query Execution Plan
+V$SQL_PLAN will contain execution plan for recently executed query.
+
+ 
+
+Contents of Plan Table: (From which view is created) : :
+ 
+
+2.  Checking for Chained Rows
+set heading off;
+select 'Tables with migrated/chained rows that contain RAW columns.' from dual;
+set heading on;
+ 
+select
+   owner c1,
+   table_name c2,
+   pct_free c3,
+   pct_used c4,
+   avg_row_len c5, 
+   num_rows c6,
+   chain_cnt c7,
+   chain_cnt/num_rows c8
+from dba_tables
+where
+owner not in ('SYS','SYSTEM')
+and
+table_name in
+ (select table_name from dba_tab_columns
+where
+ data_type in ('RAW','LONG RAW','CLOB','BLOB','NCLOB')
+ )
+and
+chain_cnt > 0
+order by chain_cnt desc
+;
+
+Other way.........
+
+begin
+for x in ( select table_name from user_tables )
+loop
+execute immediate 'analyze table ' || x.table_name ||' list chained rows into chained_rows';
+end loop;
+end;
+/
+-------------------------------------------------------
+create table CHAINED_ROWS 
+(owner_name varchar2(30),   table_name varchar2(30), 
+ cluster_name varchar2(30),  partition_name varchar2(30),  subpartition_name varchar2(30),   head_rowid rowid, analyze_timestamp  date);
+--------------------------------------------------------
+select table_name, count(*) from chained_rows group by table_name;
+
+ 
+
+Other way
+ANALYZE TABLE row_mig_chain_demo COMPUTE STATISTICS;
+
+SELECT chain_cnt,
+       round(chain_cnt/num_rows*100,2) pct_chained,
+       avg_row_len, pct_free , pct_used
+  FROM user_tables
+WHERE table_name = 'ROW_MIG_CHAIN_DEMO';
+
+ CHAIN_CNT PCT_CHAINED AVG_ROW_LEN   PCT_FREE   PCT_USED
+---------- ----------- ----------- ---------- ----------
+         3         100        3691         10         40
+
+PCT_CHAINED shows 100% which means all rows are chained or migrated
+
+
+3.  Backup data of a particular table / schema
+
+-> Use RMAN from BIN directory it is by default provided by oracle.
+-> In BIN folder we have IMPDP and EXPDP. using these two we can take backup of tables, schema or whole database.
+    
+-> Other way is to use "imp" and "exp" present in BIN.
+Steps:
+   a)Make a batch file using expdp command of oracle 
+   b)create a directory using sql command and set the target area for taking back up 
+   c)save the batch file 
+   d)use WINDOWS SCHEDULER to schedule your routined back up
+
+4.  Bulk load data into a table from file
+
+--BULK insert
+DECLARE
+   CURSOR C1 IS SELECT * FROM TABNAME;
+BEGIN
+   FOR C1_REC IN C1 
+LOOP
+   INSERT INTO BAR(A,B,C)
+          VALUES(C1.A,
+                 C1.B,
+                 C1.C);
+   END LOOP;
+END;
+/
+
+--Bulk Update
+
+CREATE OR REPLACE PROCEDURE increase_price (
+   product_id_in   IN product.prodid%TYPE,
+   increase_pct_in    IN NUMBER)
+IS
+BEGIN
+   FOR prod_rec
+      IN (SELECT prodid
+            FROM product
+           WHERE prodid =
+                    increase_price.product_id_in)
+   LOOP
+      UPDATE product
+         SET product.price = product.price + product.price * increase_price.increase_pct_in
+       WHERE product.prodid = prod_rec.prodid;
+   END LOOP;
+END increase_price;
+
+ 
+
+5.   Bulk Delete and Truncate
+
+--Bulk Delete
+DECLARE 
+ TYPE tb_delete IS TABLE OF ROWID;
+ t_delete tb_delete;
+ CURSOR c_delete IS
+ SELECT ROWID
+ FROM test_tbl
+ WHERE test_col < 6;
+ l_delete_buffer PLS_INTEGER := 5000;
+ BEGIN
+ OPEN c_delete;
+ LOOP
+ FETCH c_delete BULK COLLECT 
+ INTO t_delete LIMIT l_delete_buffer;
+ FORALL i IN 1..t_delete.COUNT
+ DELETE test_tbl
+ WHERE ROWID = t_delete (i);
+ EXIT WHEN c_delete%NOTFOUND;
+ COMMIT;
+ END LOOP;
+ CLOSE c_delete;
+ END;
+
+--Bulk Truncate
+CREATE TABLE test_tbl_temp AS
+SELECT * 
+  FROM TEST_TBL
+ WHERE 
+MONTHS_BETWEEN(SYSDATE, TO_DATE(YRMO_NBR||'01','YYYYMMDD')) <= 38;
+TRUNCATE TABLE test_tbl;
+INSERT /*+ APPEND +/ INTO test_tbl
+SELECT *
+  FROM test_tbl_temp;
+
+6.  Create a public/shared database link
+
+CREATE PUBLIC DATABASE LINK link_orcl USING 'orcl'; 
+
+Here 'link_orcl' is link name and database is specified by 'orcl' service name.
+
+ 
+
+7.  Execute copy command to copy table data from remote location
+
+--->
+COPY 
+{
+FROM username[/password]@connect_identifier 
+| TO username[/password]@connect_identifier 
+| FROM username[/password]@connect_identifier 
+	TO username[/password]@connect_identifier} 	{APPEND|CREATE|INSERT|REPLACE}
+ destination_table [(column, column, column, ...)]
+USING query
+
+--->
+e.g.
+COPY FROM HR/your_password@ORACLE01 
+CREATE SALESMEN (EMPLOYEE_ID, SA_MAN) 
+USING SELECT EMPLOYEE_ID, LAST_NAME FROM EMPLOYEES 
+WHERE JOB_ID='SA_MAN';
+
+-->
+Copies data from a query to a table in a local or remote database. COPY supports the following datatypes:
+CHAR
+DATE
+LONG
+NUMBER
+VARCHAR2
+
+
+
+
+

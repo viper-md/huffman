@@ -1,0 +1,100 @@
+SQL> desc tb_sop_reg;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ U_ID                                      NOT NULL VARCHAR2(20)
+ REG_NM                                             VARCHAR2(20)
+ E_MAIL                                             VARCHAR2(20)
+ PWD                                                VARCHAR2(20)
+ ADDR                                               VARCHAR2(20)
+ CITY                                               VARCHAR2(20)
+ STATE                                              VARCHAR2(20)
+ MO_NO                                              NUMBER(10)
+
+
+SQL> select * from tb_sop_reg;
+
+U_ID     REG_NM     E_MAIL               PWD         ADDR            CITY          STATE         MO_NO                                           
+------- --------    ------------        --------    ------------    -----------    ---------    -------
+u001     vishal     vk@gmail.com         123        ranip      	    ahmedabad   gujarat        1234567890                                           
+u002     abhijit    as@yahoo.com         456        yagnik road     rajkot      gujarat        1325687802                                           
+u003     jainesh    jl@outlook.com       789        janta bazar     surat       gujarat        3134979872                                           
+u004     kuldeep    ak@gmail.com         0123       majura gate     mumbai      maharastra     1346549875                                           
+
+
+
+SQL> desc tb_sop_pro;
+ Name        Null?    Type
+ ------------------------
+ P_ID        NOT NULL VARCHAR2(20)
+ C_ID                 VARCHAR2(20)
+ P_NM                 VARCHAR2(20)
+ P_DESC               VARCHAR2(20)
+ PRICE                NUMBER(10)
+ QTY                  NUMBER(10)
+ P_STATUS             NUMBER(1)
+
+
+SQL> select * from tb_sop_pro;
+
+P_ID                 C_ID        P_NM           P_DESC        	PRICE        QTY       P_STATUS                                                                                    
+-------------------- ---------- -------------- -------- 	----------   -------- ----------                                                                                    
+p001                 c001        lenovo_z570    1tb_hdd         47000          5          1                                                                                    
+p002                 c002        iphone_6       128gb           73000          4          1                                                                                    
+p003                 c003        titan          dimond_watch    25000          2          0                                                                                    
+
+
+
+SQL> desc tb_sop_cart;
+ Name       Null?    Type
+ ------------------------
+ CART_ID    NOT NULL VARCHAR2(20)
+ P_ID      	     VARCHAR2(20)
+ U_ID                VARCHAR2(20)
+ C_QTY               NUMBER(10)
+
+
+SQL> select * from tb_sop_cart;
+
+CART_ID              P_ID                 U_ID                      C_QTY                                                                                                                               
+-------------------- -------------------- -------------------- ----------                                                                                                                               
+ca001                p001                 u001                          2                                                                                                                               
+ca002                p002                 u002                          5                                                                                                                               
+ca003                p003                 u003                          1                                                                                                                               
+
+
+
+SQL> desc tb_sop_cat;
+ Name    Null?    Type
+ --------------------
+ C_ID    NOT NULL VARCHAR2(20)
+ C_NM        	  VARCHAR2(20)
+
+
+SQL> select * from tb_sop_cat;
+
+C_ID                 C_NM                                                                                                                                                                               
+-------------------- --------------------                                                                                                                                                               
+c001                 mobile                                                                                                                                                                             
+c002                 laptop                                                                                                                                                                             
+c003                 watch                                                                                                                                                                              
+
+
+
+SQL> desc tb_sop_omast;
+ Name            	Null?    Type
+ ----------------------------------------------
+ O_ID                   NOT NULL VARCHAR2(20)
+ U_ID                            VARCHAR2(20)
+ P_ID                            VARCHAR2(20)
+ O_DATE                          VARCHAR2(10)
+ PAY_STATUS                      VARCHAR2(10)
+
+
+SQL> select * from tb_sop_omast;
+
+O_ID                 U_ID                 P_ID                 O_DATE     PAY_STATUS                                                                                                                    
+-------------------- -------------------- -------------------- ---------- ----------                                                                                                                    
+o001                 u001                 p001                 23-1-2015  done                                                                                                                          
+o002                 u002                 p002                 27-1-2015  pending                                                                                                                       
+o003                 u003                 p003                 26-12-2014 done                                                                                                                          
+

@@ -1,0 +1,67 @@
+SQL> select * from department;
+
+DEPT_NUM   DNAME                                                                                    
+---------- ---------------                                                                          
+d001       computers                                                                                
+d002       ec                                                                                       
+d003       mechanical                                                                               
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  CREATE OR REPLACE TRIGGER dept_history
+  2    BEFORE update OF dname ON department
+  3    for each row
+  4     BEGIN
+  5   insert into dept_history values(:old.dept_num,:old.dname);
+  6*   END;
+SQL> /
+
+Warning: Trigger created with compilation errors.
+
+SQL> create table dept_history(dept_num varchar
+  2  (/
+  3  ;
+(/
+ *
+ERROR at line 2:
+ORA-00910: specified length too long for its datatype 
+
+
+SQL> create table dept_history(dept_num varchar(10),dname varchar(10));
+
+Table created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  CREATE OR REPLACE TRIGGER dept_history
+  2      BEFORE update OF dname ON department
+  3      for each row
+  4      BEGIN
+  5    	insert into dept_history values(:old.dept_num,:old.dname);
+  6*    END;
+SQL> /
+
+Trigger created.
+
+SQL> update department
+  2  set dname='mech' where dept_num='d003';
+
+1 row updated.
+
+SQL> select * from dept_history;
+
+DEPT_NUM   DNAME                                                                                    
+---------- ----------                                                                               
+d003       mechanical                                                                               
+
+SQL> select * from department;
+
+DEPT_NUM   DNAME                                                                                    
+---------- ---------------                                                                          
+d001       computers                                                                                
+d002       ec                                                                                       
+d003       mech                                                                                     
+
+SQL> spool off;

@@ -1,0 +1,59 @@
+
+SQL> select * from person
+  2  ;
+
+ DRIVER_ID F_NAME     L_NAME          ADDRESS                
+---------- ---------- --------------  ---------------       
+       101 riya        mehta          M8,shrinagar soc,ahmd        
+       102 aneri       shah           p4,navrangpura street,surat          
+       103 kush        parikh         101,citylight soc,ahmd      
+   
+SQL>
+  1  create package pack as
+  2  procedure inpersn(p_drId person.driver_id%type,p_name person.f_name%type,
+  3  	p_lname person.l_name%type,
+  4	p_addr person.address%type)
+  5  procedure del(c_id cd.id%type);
+  6 end pack;
+SQL> /
+     
+
+SQL> 
+  2  create or replace package body pack as
+  3  procedure inperson(p_drId person.driver_id%type,
+  4	p_lname person.l_name%type,
+  5	p_addr person.address%type)
+  6  is
+  7  BEGIN
+  8     insert into person values(p_drId,p_name,p_lname,p_addr);
+  9  end inperson;
+ 10  procedure del(p_drId person.driver_id%type)
+ 11  is
+ 12  begin
+ 13  	delete from person where driver_id = p_drId;
+ 14  end pack;
+ 15  /
+
+Package body created.   	
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  begin
+  3  	pack.inperson(104,'himani','joshi','a/1,himalyamal soc,ahmd');
+  4* end;
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from person
+  2  ;
+
+ DRIVER_ID F_NAME     L_NAME          ADDRESS                
+---------- ---------- --------------  ---------------       
+       101 riya        mehta          M8,shrinagar soc,ahmd        
+       102 aneri       shah           p4,navrangpura street,surat          
+       103 kush        parikh         101,citylight soc,ahmd   
+       104 himani      joshi          a/1,himalyamal soc,ahmd
+
+

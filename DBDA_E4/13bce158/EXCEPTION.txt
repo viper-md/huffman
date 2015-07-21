@@ -1,0 +1,117 @@
+SQL> select * from tb_sop_reg;
+
+U_ID                 REG_NM               E_MAIL               PWD                  ADDR                 CITY                 STATE                     MO_NO
+-------------------- -------------------- -------------------- -------------------- ----------------
+u001                 vishal               vk@gmail.com         123                  ranip                ahmedabad            gujarat              1234567890
+u002                 abhijit              as@yahoo.com         456                  yagnik road          rajkot               gujarat              132568780
+u003                 jainesh              jl@outlook.com       789                  janta bazar          surat                gujarat              313497987
+u004                 kuldeep              ak@gmail.com         0123                 majura gate          mumbai               maharastra           134654
+
+
+set serveroutput on
+-- PREDEFINED
+DECLARE
+   c_id tb_sop_reg.u_id%type;
+   c_email  tb_sop_reg.e_mail%type;
+   c_addr tb_sop_reg.addr%type;
+   v_id tb_sop_reg.u_id%type;
+   -- predefined EXCEPTION
+   ex_invalid_username  EXCEPTION;
+BEGIN
+           v_id := '&v_id';
+      SELECT  u_id, e_mail, addr INTO  c_id, c_email,c_addr
+      FROM tb_sop_reg
+      WHERE u_id='v_id';
+      DBMS_OUTPUT.PUT_LINE ('user id: '||  c_id);
+      DBMS_OUTPUT.PUT_LINE ('Name: ' || c_email|| ' ' ||c_addr);
+EXCEPTION
+   WHEN no_data_found THEN
+      dbms_output.put_line('No such customer!');
+   WHEN others THEN
+      dbms_output.put_line('Error!');
+end;
+/
+
+Enter value for v_id: u005
+old   9:            v_id := '&v_id';
+new   9:            v_id := 'u005';
+No such customer!
+
+PL/SQL procedure successfully completed.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+-----undefine
+
+DECLARE
+ cc_id tb_sop_cat.c_id%type;
+ cc_nm tb_sop_cat.c_nm%type;
+   insert_into_parent EXCEPTION;
+   insert_into_null EXCEPTION;
+   PRAGMA
+   EXCEPTION_INIT (insert_into_parent, -00001);
+   PRAGMA
+   EXCEPTION_INIT (insert_into_null, -01400);
+BEGIN
+   insert into tb_sop_cat values('&cc_id','&cc_nm');
+EXCEPTION
+  WHEN insert_into_parent THEN
+    dbms_output.put_line('Entry is not found in parent tabel.');
+WHEN insert_into_null THEN
+    dbms_output.put_line('Null values is not acceptable.');
+END;
+/
+Enter value for cc_id: 
+Enter value for cc_nm: 
+old  11:    insert into tb_sop_cat values('&cc_id','&cc_nm');
+new  11:    insert into tb_sop_cat values('','');
+Null values is not acceptable.
+
+PL/SQL procedure successfully completed.
+
+SQL> /
+Enter value for cc_id: c003
+Enter value for cc_nm: dfvfv
+old  11:    insert into tb_sop_cat values('&cc_id','&cc_nm');
+new  11:    insert into tb_sop_cat values('c003','dfvfv');
+Entry is not found in parent tabel.
+
+PL/SQL procedure successfully completed.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+SQL> select * from tb_sop_cart;
+
+CART_ID              P_ID                 U_ID                      C_QTY
+-------------------- -------------------- -------------------- ----------
+ca001                p001                 u001                          2
+ca002                p002                 u002                          5
+ca003                p003                 u003                          1
+
+
+SQL> set serveroutput on
+ --  USER DEFINED
+ DECLARE
+    c_p_id tb_sop_pro.p_id%type;
+    ca_qty tb_sop_cart.c_qty%type;
+    CURSOR c_pro is SELECT p_id FROM tb_sop_pro;
+    good_prod EXCEPTION;
+ BEGIN
+    OPEN c_pro;
+    LOOP
+       FETCH c_pro into c_p_id;
+                    SELECT AVG(c_qty) INTO ca_qty from tb_sop_cart WHERE p_id=c_p_id;
+                    IF ca_qty < 8 THEN RAISE good_prod;
+                    END IF;
+       EXIT WHEN c_pro%notfound;
+    END LOOP;
+    EXCEPTION
+    WHEN good_prod THEN
+            dbms_output.put_line(c_p_id || '---' || ca_qty);
+    CLOSE c_pro;
+ END;
+/
+p001---2
+
+PL/SQL procedure successfully completed.

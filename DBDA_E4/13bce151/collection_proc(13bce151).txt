@@ -1,0 +1,29 @@
+
+---------   index by collection
+SQL> select * from student;
+
+ROLL_NO              FNAME                LNAME
+-------------------- -------------------- --------------------
+13bce151             harshil              patel
+13bce152             mukesh               patel
+13bce153             vishal               patel
+
+DECLARE
+ CURSOR c_name is
+ select fname from student;
+   TYPE fname1 IS TABLE of student.fname%type INDEX BY binary_integer;
+        fname1_list fname1;
+        counter integer :=0;
+BEGIN
+ FOR n IN c_name LOOP
+   counter := counter +1;
+           fname1_list(counter) := n.fname;
+   dbms_output.put_line('First name is('||counter|| '):'||fname1_list(counter));
+END LOOP;
+END;
+
+First name is(1):harshil
+First name is(2):mukesh
+First name is(3):vishal
+
+PL/SQL procedure successfully completed.

@@ -1,0 +1,14 @@
+declare
+f_name student.fname%type;
+insert_user EXCEPTION;
+
+begin
+f_name :='&f_name';
+if f_name='harshil' THEN RAISE insert_user;
+
+end if;
+EXCEPTION
+	WHEN insert_user THEN
+	dbms_output.put_line('welcome admin');
+
+end;

@@ -1,0 +1,33 @@
+
+
+SQL> select * from student;
+
+ROLL_NO  FNAME                LNAME                      PNO ADDRESS
+-------- -------------------- -------------------- --------- --------------------------------------------------
+13bce151 harshil              anghan             92382193 16 royal park society
+13bce152 changed              mehta            98983298 15 new park appt
+13bce153 milan                mehta                97328718 15 akash elegance
+13bce154 mukesh               kathirya
+
+SQL> declare
+  2  m_fname char(20); 
+  3  begin
+  4   select fname into m_fname from student where fname='changed';
+  5   if m_fname='changed' THEN
+  6   update student set fname='vivek' where fname=m_fname;
+  7   end if;
+  8  dbms_output.put_line(to_char(m_fname));
+  9   end;
+ 10  /
+changed
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from student;
+
+ROLL_NO  FNAME                LNAME                      PNO ADDRESS
+-------- -------------------- -------------------- --------- --------------------------------------------------
+13bce151 harshil              anghan                92382193 16 royal park society
+13bce152 vivek                mehta                98983298 15 new park appt
+13bce153 milan                mehta                97328718 15 akash elegance
+13bce154 mukesh               kathirya

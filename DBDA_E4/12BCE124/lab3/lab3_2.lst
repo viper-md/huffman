@@ -1,0 +1,48 @@
+SQL> select * from result;
+
+	ROLL_NUM       EXAM_ID       SUB_ID       MARKS                     
+---------- -------------------- -------------------- --------- --------- --------- --------- -      
+         S001       E001		SB001               80                   
+         S002       E002		SB003              90               
+         S003       E003		SB001               30                
+         S004       E004		SB002               90
+         S005       E005                  SB003               30
+
+SQL> set serveroutput on;
+SQL> DECLARE
+  2  	e_grade exception;
+  3  	mar staff.salary%type;
+  4  	cursor c1 is select marks from result;
+  5  BEGIN
+  6  	OPEN c1;
+  7  	LOOP
+  8  		FETCH c1 into mar;
+  9  		exit when c1%notfound;
+ 10  		if(mar<40) then
+ 11  			raise e_grade;
+ 12  		else
+ 13  			dbms_output.put_line('nobody has failed');
+ 14  		END IF;
+ 15  	END LOOP;
+ 16  	CLOSE c1;
+ 17  EXCEPTION
+ 18  	WHEN e_grade THEN
+ 19  		update result
+ 20  		set marks=40;
+ 21  END;
+ 22  /
+nobody has failed
+nobody has failed
+nobody has failed
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from result;
+
+	ROLL_NUM       EXAM_ID       SUB_ID       MARKS                     
+---------- -------------------- -------------------- --------- --------- --------- --------- -      
+         S001       E001		SB001               80                   
+         S002       E002		SB003              90               
+         S003       E003		SB001               40                
+         S004       E004		SB002               90
+         S005       E005                  SB003               40

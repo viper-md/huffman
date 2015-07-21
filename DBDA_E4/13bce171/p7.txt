@@ -1,0 +1,34 @@
+
+SQL> select * from person
+  2  ;
+
+ DRIVER_ID F_NAME     L_NAME          ADDRESS                
+---------- ---------- --------------  ---------------       
+       101 riya        mehta          M8,shrinagar soc,ahmd        
+       102 aneri       shah           p4,navrangpura street,surat          
+       103 kush        parikh         101,citylight soc,ahmd      
+        
+
+SQL> DECLARE
+  2     CURSOR c1 IS select F_Name from person;
+  3	TYPE c_list IS TABLE OF person.f_name%TYPE INDEX BY binary_integer;
+  4	name c_list;
+  5	c number:=0;
+  6  BEGIN
+  7    for n in c1 LOOP
+  8     	c:=c+1;
+  9		name(c):=n.f_name;
+ 10     	DBMS_OUTPUT.PUT_LINE('Person('||c||'):'||name(c));
+ 11	END LOOP;
+ 13  END;
+ 14  /
+
+Person(1):riya                                                               
+Person(2):aneri                                                            
+Person(3):kush
+
+PL/SQL procedure successfully completed.
+
+   
+
+

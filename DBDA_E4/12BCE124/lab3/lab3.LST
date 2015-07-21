@@ -1,0 +1,52 @@
+SQL> select * from student
+  2  ;
+
+	ROLL_NUM	SFNAME               SLNAME                      
+---------- -------------------- -------------------- --------- --------- --------- --------- -      
+         S001		raghav               thirani                    
+         S002		kartavya             chauhan               
+         S003		manank               valand                
+         S004		mukul                devrani                                  
+                                                                                
+
+SQL> set serveroutput on;
+
+SQL> DECLARE
+  2  	frst student.sfname%type;
+  3  	last student.slname%type;
+  4  	id student.roll_num%type;
+  5  BEGIN
+  6  	select roll_num,sfname,slname into id,frst,last
+  7  	from student
+  8  	where roll_num='s001';
+  9  	dbms_output.put_line('student name is ' || frst || last);
+ 10  EXCEPTION
+ 11  	when no_data_found
+ 12  	then
+ 13  		dbms_output.put_line(' there is no such student');
+ 14  END;
+ 15  /
+student name is raghavthirani                                                    
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2  	frst student.sfname%type;
+  3  	last student.slname%type;
+  4  	id student.roll_num%type;
+  5  BEGIN
+  6  	select roll_num,sfname,slname into id,frst,last
+  7  	from student
+  8  	where roll_num='s006';
+  9  	dbms_output.put_line('student name is ' || frst || last);
+ 10  EXCEPTION
+ 11  	when no_data_found
+ 12  	then
+ 13  		dbms_output.put_line(' there is no such student');
+ 14  END;
+ 15  /
+there is no such student                                                        
+
+PL/SQL procedure successfully completed.
+
+SQL> spool off;

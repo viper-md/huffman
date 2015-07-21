@@ -1,0 +1,43 @@
+PRACTICAL-3  Exceptions
+----------------------------------------------------------
+-----------------------------------------------------------
+
+
+ Create table CLUB_MEMBERS
+(
+	MEMBER_ID Varchar(10),
+	MEMBER_fname Varchar(30) NOT NULL,
+	MEMBER_lname Varchar(30) NOT NULL,
+	member_phone number(20),
+	member_add_id varchar(30),
+	joining_date date,
+	expiry_date date,
+	m_type_id varchar(20)
+	Constraint CLUB_cts1 PRIMARY KEY(MEMBER_ID)
+);
+------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE add_new_members
+            (member_id_in IN NUMBER, fname_in IN varchar(30),lname_in IN varchar(30))
+        IS
+            no_status EXCEPTION;
+  
+        BEGIN
+            IF member_id_in = NULL || fname_in= NULL || lname_in= NULL THEN
+                RAISE no_status;
+            ELSE if
+                INSERT INTO CLUB_MEMBERS (MEMBER_ID, MEMBER_fname,member_lname ) VALUES ( MEMBER_id_in,fname_in,lname_in);
+        END IF;
+  
+        EXCEPTION
+             WHEN no_sTATUS THEN
+                raise_application_error (-20001,'cannot have null values.');
+  
+             WHEN OTHERS THEN
+                raise_application_error (-20002,'other.');
+ 
+        END;
+        /
+------------------------
+Procedure created.
+
+ 

@@ -1,0 +1,17 @@
+create or replace procedure firstname as
+fname1 student.fname%type;
+lname1 student.lname%type;
+cursor c_select is select lname from student;
+begin
+open c_select;
+loop 
+fetch  c_select into fname1;
+select lname into lname1 from student where fname='harshil';
+	 dbms_output.put_line(lname1);
+	exit when c_select%notfound;
+end loop;
+	exception
+when no_data_found then
+	dbms_output.put_line('NOT rated Yet');
+   CLOSE c_select;
+END;
