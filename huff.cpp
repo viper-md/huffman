@@ -43,8 +43,8 @@ public:
 
 bool compare(const node* a, const node* b)
 {
-//	if(a->prob==b->prob)
-//		return a->ascii <= b->ascii;
+	if(a->prob==b->prob)
+		return a->ascii <= b->ascii;
 	return a->prob>b->prob;
 }
 
